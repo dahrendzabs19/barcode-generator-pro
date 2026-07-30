@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Barcode Generator Pro
 
-## Getting Started
+Professional Code 128 Barcode Generator built with Next.js.
 
-First, run the development server:
+## ✨ Features
+
+- Import Excel (.xlsx)
+- Import CSV (.csv)
+- Generate Code 128 Barcode
+- Live Barcode Preview
+- Export SVG (Editable Vector)
+- Export PDF (Vector Only)
+- Batch ZIP Export
+- Duplicate Filename Handling
+- Adobe Illustrator Compatible
+- CorelDRAW Compatible
+- Inkscape Compatible
+
+---
+
+## 🛠 Tech Stack
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+- bwip-js
+- pdf-lib
+- xlsx
+- JSZip
+
+---
+
+## 🚀 Installation
+
+```bash
+npm install
+```
+
+Run development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Build production:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📂 Supported Input
 
-To learn more about Next.js, take a look at the following resources:
+- Excel (.xlsx)
+- CSV (.csv)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Example:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Barcode |
+|---------|
+|731846520001|
+|731846520002|
+|731846520003|
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📤 Export Formats
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- SVG (Editable Vector)
+- PDF (Vector Only)
+- ZIP (Batch SVG)
+
+---
+
+## 📄 License
+
+Internal Project - PT Boenk Cosmetics
