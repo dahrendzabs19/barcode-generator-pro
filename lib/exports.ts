@@ -55,7 +55,7 @@ export async function exportSvg(row: ProductRow): Promise<void> {
   download(new Blob([await barcodeSvg(row.barcode)], { type: "image/svg+xml;charset=utf-8" }), `${barcodeFilename(row.barcode)}.svg`);
 }
 
-async function pngFromSvg(svg: string): Promise<Blob> {
+async function rasterFromSvg(svg: string, type: "image/png" | "image/jpeg"): Promise<Blob> {
   const barcode = parseVectorSvg(svg);
   const scale = 4;
   const canvas = document.createElement("canvas");
@@ -77,12 +77,17 @@ async function pngFromSvg(svg: string): Promise<Blob> {
   } finally {
     URL.revokeObjectURL(sourceUrl);
   }
-  return new Promise<Blob>((resolve, reject) => canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error("PNG encoding failed.")), "image/png"));
+  return new Promise<Blob>((resolve, reject) => canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error("Raster encoding failed.")), type, type === "image/jpeg" ? 1 : undefined));
 }
 
 export async function exportPng(row: ProductRow): Promise<void> {
   const svg = await barcodeSvg(row.barcode);
-  download(await pngFromSvg(svg), `${barcodeFilename(row.barcode)}.png`);
+  download(await rasterFromSvg(svg, "image/png"), `${barcodeFilename(row.barcode)}.png`);
+}
+
+export async function exportJpeg(row: ProductRow): Promise<void> {
+  const svg = await barcodeSvg(row.barcode);
+  download(await rasterFromSvg(svg, "image/jpeg"), `${barcodeFilename(row.barcode)}.jpg`);
 }
 
 export async function exportZip(rows: ProductRow[]): Promise<void> {
@@ -101,9 +106,20 @@ export async function exportPngZip(rows: ProductRow[]): Promise<void> {
   for (let index = 0; index < rows.length; index += 1) {
     const row = rows[index]; if (!row) continue;
     const filename = uniqueFilename(row.barcode, filenames).replace(/\.svg$/, ".png");
-    zip.file(filename, await pngFromSvg(await barcodeSvg(row.barcode)));
+    zip.file(filename, await rasterFromSvg(await barcodeSvg(row.barcode), "image/png"));
   }
   download(await zip.generateAsync({ type: "blob" }), "barcode-png.zip");
+}
+
+export async function exportJpegZip(rows: ProductRow[]): Promise<void> {
+  const zip = new JSZip();
+  const filenames = new Set<string>();
+  for (let index = 0; index < rows.length; index += 1) {
+    const row = rows[index]; if (!row) continue;
+    const filename = uniqueFilename(row.barcode, filenames).replace(/\.svg$/, ".jpg");
+    zip.file(filename, await rasterFromSvg(await barcodeSvg(row.barcode), "image/jpeg"));
+  }
+  download(await zip.generateAsync({ type: "blob" }), "barcode-jpeg.zip");
 }
 
 export async function exportPdf(rows: ProductRow[]): Promise<void> {
